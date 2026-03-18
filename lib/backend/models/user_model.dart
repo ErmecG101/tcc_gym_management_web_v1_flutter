@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/models/gym_model.dart';
 
 class UserModel {
@@ -69,16 +70,33 @@ class UserModel {
     };
   }
 
-  UserModel fromJson(Map<String, dynamic> json) {
+  UserModel fromJson(Map<String, dynamic>? json) {
+    if (json == null) return UserModel.empty();
     return UserModel.empty().copyWith(
-      json['id'],
-      json['name'],
-      json['userName'],
-      json['password'],
-      json['document'],
-      json['email'],
-      json['phoneNumber'],
-      GymModel.empty().fromJson(json['gymDTO']),
+      json['id'] as String?,
+      json['name'] as String?,
+      json['userName'] as String?,
+      json['password'] as String?,
+      json['document'] as String?,
+      json['email'] as String?,
+      json['phoneNumber'] as String?,
+      GymModel.fromJson(json['gymDTO'] as Map<String, dynamic>?),
+    );
+  }
+
+  /// Creates a [UserModel] from a JSON map. Null entries are tolerated
+  /// and converted to empty strings; absent gymDTO yields an empty gym.
+  factory UserModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return UserModel.empty();
+    return UserModel.empty().copyWith(
+      json['id'] as String?,
+      json['name'] as String?,
+      json['userName'] as String?,
+      json['password'] as String?,
+      json['document'] as String?,
+      json['email'] as String?,
+      json['phoneNumber'] as String?,
+      GymModel.fromJson(json['gymDTO'] as Map<String, dynamic>?),
     );
   }
 }
