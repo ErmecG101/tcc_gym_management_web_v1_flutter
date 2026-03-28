@@ -22,7 +22,8 @@ class EquipmentTypeHttpService {
 
   Future<bool> createEquipmentType(EquipmentTypeModel model) async {
     try {
-      await _httpClient.post('equipment-types', null, model.toJson());
+      final body = model.toJson()..remove('id');
+      await _httpClient.post('equipment-types', null, body);
       return true;
     } catch (e) {
       print('CAIU NO EQUIPMENT TYPE HTTP SERVICE CREATE: $e');

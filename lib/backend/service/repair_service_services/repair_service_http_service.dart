@@ -35,8 +35,8 @@ class RepairServiceHttpService {
 
   Future<bool> createRepairService(RepairServiceModel model) async {
     try {
-      await _httpClient.post(
-          'maintenance-repair-services', null, model.toJson());
+      final body = model.toJson()..remove('id');
+      await _httpClient.post('maintenance-repair-services', null, body);
       return true;
     } catch (e) {
       print('CAIU NO REPAIR SERVICE HTTP SERVICE CREATE: $e');

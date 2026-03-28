@@ -32,7 +32,8 @@ class MaintenanceHttpService {
 
   Future<bool> createMaintenance(MaintenanceModel model) async {
     try {
-      await _httpClient.post('maintenances', null, model.toJson());
+      final body = model.toJson()..remove('id');
+      await _httpClient.post('maintenances', null, body);
       return true;
     } catch (e) {
       print('CAIU NO MAINTENANCE HTTP SERVICE CREATE: $e');

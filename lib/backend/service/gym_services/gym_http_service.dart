@@ -32,7 +32,8 @@ class GymHttpService {
 
   Future<bool> createGym(GymModel gym) async {
     try {
-      await _httpClient.post('gyms', null, gym.toJson());
+      final body = gym.toJson()..remove('id');
+      await _httpClient.post('gyms', null, body);
       return true;
     } catch (e) {
       print('CAIU NO GYM HTTP SERVICE CREATE: $e');
