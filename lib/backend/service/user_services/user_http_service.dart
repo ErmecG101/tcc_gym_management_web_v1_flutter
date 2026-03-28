@@ -29,6 +29,8 @@ class UserHttpService {
     try {
       await _defaulthttpclient.post("users", null, user.toJson());
       return true;
+    } on NoContentException {
+      throw NoContentException('Usuário não criado: username já está em uso.');
     } catch (e) {
       print("CAIU NO CREATE USER HTTP SERVICE: $e");
       rethrow;

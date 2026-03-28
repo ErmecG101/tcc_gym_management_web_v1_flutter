@@ -43,6 +43,7 @@ class EquipmentTypeHttpService {
 
   Future<bool> deleteEquipmentType(String id) async {
     try {
+      print('DELETE equipment-types/$id (id isEmpty: ${id.isEmpty})');
       return await _httpClient.delete('equipment-types/$id', null, {});
     } catch (e) {
       print('CAIU NO EQUIPMENT TYPE HTTP SERVICE DELETE: $e');

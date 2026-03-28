@@ -2,6 +2,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:tcc_gym_management_web_v1_flutter/backend/constants/http_constants.dart';
 
+class NoContentException implements Exception {
+  final String message;
+  NoContentException([
+    this.message =
+        'Requisição bem sucedida, mas nenhum conteúdo foi gerado/salvo.',
+  ]);
+
+  @override
+  String toString() => message;
+}
+
 class Defaulthttpclient {
   Future<Map<String, dynamic>> post(
     String url,
@@ -17,6 +28,9 @@ class Defaulthttpclient {
       body: convert.jsonEncode(json),
     );
 
+    if (response.statusCode == 204) {
+      throw NoContentException();
+    }
     if (response.statusCode > 199 && response.statusCode < 300) {
       if (response.body.isEmpty) return {};
       var jsonResponse =

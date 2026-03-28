@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/constants/action_enum.dart';
+import 'package:tcc_gym_management_web_v1_flutter/backend/http/DefaultHttpClient.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/models/user_model.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/service/user_services/ac_user_service.dart';
 
@@ -66,6 +67,15 @@ class _DialogUserState extends State<DialogUser> {
         await widget.acUserService.updateUser(id: user.id, user: user);
       }
       if (mounted) Navigator.of(context).pop(true);
+    } on NoContentException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.message),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
