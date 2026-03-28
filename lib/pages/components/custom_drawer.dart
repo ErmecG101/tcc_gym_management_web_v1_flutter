@@ -5,6 +5,7 @@ import 'package:tcc_gym_management_web_v1_flutter/backend/constants/other_consta
 import 'package:tcc_gym_management_web_v1_flutter/pages/login_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/pagina_usuarios.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/principal_page.dart';
+import 'package:tcc_gym_management_web_v1_flutter/pages/requests_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/utils/page_utils.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -38,7 +39,13 @@ class CustomDrawer extends StatelessWidget {
               label: Text("Home"),
               icon: Icon(Icons.home),
             ),
-            ElevatedButton(onPressed: () {}, child: Text("Opção 2")),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                PageUtils.navigateTo(context, RequestsPage());
+              },
+              child: Text("Requests"),
+            ),
             ElevatedButton(onPressed: () {}, child: Text("Opção 3")),
             ElevatedButton(onPressed: () {}, child: Text("Opção 4")),
             ElevatedButton(onPressed: () {}, child: Text("Opção 5")),
