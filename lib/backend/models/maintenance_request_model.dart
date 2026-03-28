@@ -23,6 +23,14 @@ class MaintenanceRequestModel {
     required this.equipments,
   });
 
+  Map<String, dynamic> toJson() => {
+        'description': description,
+        'observation': observation,
+        'maintenanceDTO': {'id': maintenanceDTO.id},
+        'userDTO': {'id': userDTO.id},
+        'equipments': equipments.map((e) => {'id': e.id}).toList(),
+      };
+
   factory MaintenanceRequestModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
       throw Exception('JSON is null');
