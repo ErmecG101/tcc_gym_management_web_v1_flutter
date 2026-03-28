@@ -29,6 +29,7 @@ class GenericDataTable<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: double.infinity,
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
@@ -70,17 +71,28 @@ class GenericDataTable<T> extends StatelessWidget {
               child: Text(emptyMessage),
             )
           else
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columnSpacing: 24,
-                    columns: columns,
-                    rows: items.map(rowBuilder).toList(),
-                  ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: constraints.maxWidth,
+                          ),
+                          child: DataTable(
+                            columnSpacing: 24,
+                            columns: columns,
+                            rows: items.map(rowBuilder).toList(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
