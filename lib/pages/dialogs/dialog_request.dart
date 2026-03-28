@@ -58,6 +58,8 @@ class _DialogRequestState extends State<DialogRequest> {
       maintenanceDTO: widget.request.maintenanceDTO,
       userDTO: widget.request.userDTO,
       equipments: widget.request.equipments,
+      maintenances: widget.request.maintenances,
+      conditions: widget.request.conditions,
     );
 
     try {

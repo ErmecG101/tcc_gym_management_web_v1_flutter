@@ -1,3 +1,5 @@
+import 'package:tcc_gym_management_web_v1_flutter/backend/models/equipment_model.dart';
+
 class MaintenanceRequestModel {
   final String id;
   final int requestNumber;
@@ -9,6 +11,8 @@ class MaintenanceRequestModel {
   final MaintenanceDTO maintenanceDTO;
   final UserDTO userDTO;
   final List<EquipmentModel> equipments;
+  final List<MaintenanceDTO> maintenances;
+  final List<String> conditions;
 
   MaintenanceRequestModel({
     required this.id,
@@ -21,14 +25,38 @@ class MaintenanceRequestModel {
     required this.maintenanceDTO,
     required this.userDTO,
     required this.equipments,
+    required this.maintenances,
+    required this.conditions,
   });
 
   Map<String, dynamic> toJson() => {
+        'requestNumber': requestNumber,
         'description': description,
         'observation': observation,
-        'maintenanceDTO': {'id': maintenanceDTO.id},
-        'userDTO': {'id': userDTO.id},
-        'equipments': equipments.map((e) => {'id': e.id}).toList(),
+        'createdAt': createdAt,
+        'maintenanceDTO': {
+          'id': maintenanceDTO.id,
+          'name': maintenanceDTO.name,
+          'phone': maintenanceDTO.phone,
+          'document': maintenanceDTO.document,
+        },
+        'userDTO': {
+          'id': userDTO.id,
+          'name': userDTO.name,
+          'email': userDTO.email,
+          'document': userDTO.document,
+        },
+        'equipments': equipments.map((e) => e.toJson()).toList(),
+        'maintenances': maintenances
+            .map((m) => {
+                  'id': m.id,
+                  'name': m.name,
+                  'phone': m.phone,
+                  'document': m.document,
+                })
+            .toList(),
+        'services': [],
+        'conditions': conditions,
       };
 
   factory MaintenanceRequestModel.fromJson(Map<String, dynamic>? json) {
@@ -48,9 +76,16 @@ class MaintenanceRequestModel {
         json['maintenanceDTO'] as Map<String, dynamic>?,
       ),
       userDTO: UserDTO.fromJson(json['userDTO'] as Map<String, dynamic>?),
-      equipments:
-          (json['equipments'] as List<dynamic>?)
+      equipments: (json['equipments'] as List<dynamic>?)
               ?.map((e) => EquipmentModel.fromJson(e as Map<String, dynamic>?))
+              .toList() ??
+          [],
+      maintenances: (json['maintenances'] as List<dynamic>?)
+              ?.map((e) => MaintenanceDTO.fromJson(e as Map<String, dynamic>?))
+              .toList() ??
+          [],
+      conditions: (json['conditions'] as List<dynamic>?)
+              ?.map((e) => e as String)
               .toList() ??
           [],
     );
@@ -105,37 +140,6 @@ class UserDTO {
       name: json['name'] as String? ?? '',
       email: json['email'] as String? ?? '',
       document: json['document'] as String? ?? '',
-    );
-  }
-}
-
-class EquipmentModel {
-  final String id;
-  final String name;
-  final String description;
-  final String propertyNumber;
-
-  EquipmentModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.propertyNumber,
-  });
-
-  factory EquipmentModel.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return EquipmentModel(
-        id: '',
-        name: '',
-        description: '',
-        propertyNumber: '',
-      );
-    }
-    return EquipmentModel(
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      propertyNumber: json['propertyNumber'] as String? ?? '',
     );
   }
 }

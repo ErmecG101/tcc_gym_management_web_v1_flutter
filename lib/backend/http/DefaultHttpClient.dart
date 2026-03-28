@@ -18,6 +18,7 @@ class Defaulthttpclient {
     );
 
     if (response.statusCode > 199 && response.statusCode < 300) {
+      if (response.body.isEmpty) return {};
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
       return jsonResponse;
