@@ -8,7 +8,9 @@ class RequestHttpService {
   Future<MaintenanceRequestModel> getMaintenanceRequestById(String id) async {
     try {
       final response = await _httpClient.get('requests/$id', null, {});
-      return MaintenanceRequestModel.fromJson(response as Map<String, dynamic>?);
+      return MaintenanceRequestModel.fromJson(
+        response as Map<String, dynamic>?,
+      );
     } catch (e) {
       print('CAIU NO REQUEST HTTP SERVICE GET BY ID: $e');
       rethrow;

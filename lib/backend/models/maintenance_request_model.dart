@@ -30,34 +30,36 @@ class MaintenanceRequestModel {
   });
 
   Map<String, dynamic> toJson() => {
-        'requestNumber': requestNumber,
-        'description': description,
-        'observation': observation,
-        'createdAt': createdAt,
-        'maintenanceDTO': {
-          'id': maintenanceDTO.id,
-          'name': maintenanceDTO.name,
-          'phone': maintenanceDTO.phone,
-          'document': maintenanceDTO.document,
-        },
-        'userDTO': {
-          'id': userDTO.id,
-          'name': userDTO.name,
-          'email': userDTO.email,
-          'document': userDTO.document,
-        },
-        'equipments': equipments.map((e) => e.toJson()).toList(),
-        'maintenances': maintenances
-            .map((m) => {
-                  'id': m.id,
-                  'name': m.name,
-                  'phone': m.phone,
-                  'document': m.document,
-                })
-            .toList(),
-        'services': [],
-        'conditions': conditions,
-      };
+    'requestNumber': requestNumber,
+    'description': description,
+    'observation': observation,
+    'createdAt': createdAt,
+    'maintenanceDTO': {
+      'id': maintenanceDTO.id,
+      'name': maintenanceDTO.name,
+      'phone': maintenanceDTO.phone,
+      'document': maintenanceDTO.document,
+    },
+    'userDTO': {
+      'id': userDTO.id,
+      'name': userDTO.name,
+      'email': userDTO.email,
+      'document': userDTO.document,
+    },
+    'equipments': equipments.map((e) => e.toJson()).toList(),
+    'maintenances': maintenances
+        .map(
+          (m) => {
+            'id': m.id,
+            'name': m.name,
+            'phone': m.phone,
+            'document': m.document,
+          },
+        )
+        .toList(),
+    'services': [],
+    'conditions': conditions,
+  };
 
   factory MaintenanceRequestModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -76,15 +78,18 @@ class MaintenanceRequestModel {
         json['maintenanceDTO'] as Map<String, dynamic>?,
       ),
       userDTO: UserDTO.fromJson(json['userDTO'] as Map<String, dynamic>?),
-      equipments: (json['equipments'] as List<dynamic>?)
+      equipments:
+          (json['equipments'] as List<dynamic>?)
               ?.map((e) => EquipmentModel.fromJson(e as Map<String, dynamic>?))
               .toList() ??
           [],
-      maintenances: (json['maintenances'] as List<dynamic>?)
+      maintenances:
+          (json['maintenances'] as List<dynamic>?)
               ?.map((e) => MaintenanceDTO.fromJson(e as Map<String, dynamic>?))
               .toList() ??
           [],
-      conditions: (json['conditions'] as List<dynamic>?)
+      conditions:
+          (json['conditions'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
