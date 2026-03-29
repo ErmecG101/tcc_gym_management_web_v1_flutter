@@ -1,4 +1,3 @@
-import 'package:tcc_gym_management_web_v1_flutter/backend/models/gym_model.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/notifiers/gym_notifier.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/service/gym_services/gym_http_service.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/structure/state_generics.dart';

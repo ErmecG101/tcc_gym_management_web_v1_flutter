@@ -1,4 +1,3 @@
-import 'package:tcc_gym_management_web_v1_flutter/backend/models/repair_service_model.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/notifiers/repair_service_notifier.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/service/repair_service_services/repair_service_http_service.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/structure/state_generics.dart';

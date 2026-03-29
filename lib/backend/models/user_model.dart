@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/models/gym_model.dart';
 
 class UserModel {
