@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/models/gym_model.dart';
 
@@ -57,12 +60,18 @@ class UserModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({
+    bool forUpdate = false,
+    bool cryptPassword = true,
+  }) {
+    final protectedPassword = cryptPassword
+        ? sha1.convert(utf8.encode(password)).toString()
+        : password;
     return {
-      "id": id,
+      if (forUpdate) "id": id,
       "name": name,
       "userName": userName,
-      "password": password,
+      "password": protectedPassword,
       "document": document,
       "email": email,
       "phoneNumber": phoneNumber,

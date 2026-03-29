@@ -27,7 +27,12 @@ class UserHttpService {
 
   Future<bool> createUser({required UserModel user}) async {
     try {
-      await _defaulthttpclient.post("users", null, user.toJson());
+      print(user.toJson(forUpdate: false));
+      await _defaulthttpclient.post(
+        "users",
+        null,
+        user.toJson(forUpdate: false),
+      );
       return true;
     } on NoContentException {
       throw NoContentException('Usuário não criado: username já está em uso.');
@@ -39,7 +44,11 @@ class UserHttpService {
 
   Future<bool> updateUser({required String id, required UserModel user}) async {
     try {
-      return await _defaulthttpclient.put("users/$id", null, user.toJson());
+      return await _defaulthttpclient.put(
+        "users/$id",
+        null,
+        user.toJson(forUpdate: true),
+      );
     } catch (e) {
       print("CAIU NO UPDATE USER HTTP SERVICE: $e");
       rethrow;
