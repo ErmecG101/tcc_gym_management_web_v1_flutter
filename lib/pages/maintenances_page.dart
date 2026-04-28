@@ -108,6 +108,18 @@ class _MaintenancesPageState extends State<MaintenancesPage> {
       spacing: 4,
       children: [
         IconButton(
+          tooltip: 'Visualizar',
+          icon: const Icon(Icons.visibility),
+          onPressed: () => showDialog(
+            context: context,
+            builder: (_) => DialogMaintenance(
+              action: ActionEnum.view,
+              acService: _acService,
+              maintenance: maintenance,
+            ),
+          ),
+        ),
+        IconButton(
           tooltip: 'Editar',
           icon: const Icon(Icons.edit),
           onPressed: () async {
