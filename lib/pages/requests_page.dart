@@ -33,14 +33,28 @@ class _RequestsPageState extends State<RequestsPage> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Requests',
+      title: 'Pedidos de Manutenção',
       body: Column(
         spacing: 8,
         children: [
           Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [Text('Lista de Requests')],
+            children: [
+              const Text('Lista de Pedidos de Manutenção'),
+              ElevatedButton(
+                onPressed: () async {
+                  final created = await showDialog<bool>(
+                    context: context,
+                    builder: (_) => DialogRequest(
+                      action: ActionEnum.insert,
+                      acRequestService: _acRequestService,
+                    ),
+                  );
+                  if (created == true) await _requestService.getAllRequests();
+                },
+                child: const Text('Novo Pedido'),
+              ),
+            ],
           ),
           Expanded(
             child: AnimatedBuilder(
@@ -55,135 +69,43 @@ class _RequestsPageState extends State<RequestsPage> {
                               as SuccessState<List<MaintenanceRequestModel>>)
                           .data;
                   return GenericDataTable<MaintenanceRequestModel>(
-                    title: 'Requests',
+                    title: 'Pedidos',
                     items: requests ?? [],
                     isLoading: false,
-                    onRefresh: () async {
-                      await _requestService.getAllRequests();
-                    },
+                    onRefresh: () async => _requestService.getAllRequests(),
                     columns: const [
                       DataColumn(
-                        label: Text(
-                          'Nº',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Código', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       DataColumn(
-                        label: Text(
-                          'Descrição',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Descrição', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       DataColumn(
-                        label: Text(
-                          'Manutenção',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Manutenção', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       DataColumn(
-                        label: Text(
-                          'Solicitante',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Solicitante', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       DataColumn(
-                        label: Text(
-                          'Criado em',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Criado em', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       DataColumn(
-                        label: Text(
-                          'Ações',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        label: Text('Ações', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ],
-                    rowBuilder: (request) {
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(request.requestNumber.toString())),
-                          DataCell(Text(request.description)),
-                          DataCell(Text(request.maintenanceDTO.name)),
-                          DataCell(Text(request.userDTO.name)),
-                          DataCell(Text(request.createdAt)),
-                          DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              spacing: 4,
-                              children: [
-                                IconButton(
-                                  tooltip: 'Visualizar',
-                                  icon: const Icon(Icons.visibility),
-                                  onPressed: () => showDialog(
-                                    context: context,
-                                    builder: (_) => DialogRequest(
-                                      action: ActionEnum.view,
-                                      request: request,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  tooltip: 'Editar',
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () async {
-                                    final saved = await showDialog<bool>(
-                                      context: context,
-                                      builder: (_) => DialogRequest(
-                                        action: ActionEnum.edit,
-                                        request: request,
-                                        acRequestService: _acRequestService,
-                                      ),
-                                    );
-                                    if (saved == true) {
-                                      await _requestService.getAllRequests();
-                                    }
-                                  },
-                                ),
-                                IconButton(
-                                  tooltip: 'Excluir',
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    final shouldDelete = await showDialog<bool>(
-                                      context: context,
-                                      builder: (_) => DialogAviso(
-                                        aviso:
-                                            'Tem certeza que deseja excluir o request Nº ${request.requestNumber}?',
-                                        acoes: [
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, true),
-                                            child: const Text('Sim'),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, false),
-                                            child: const Text('Não'),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    if (shouldDelete == true) {
-                                      final deleted = await _acRequestService
-                                          .deleteRequest(id: request.id);
-                                      if (deleted) {
-                                        await _requestService.getAllRequests();
-                                      }
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                    rowBuilder: (request) => DataRow(
+                      cells: [
+                        DataCell(Text(request.requestNumber.toString())),
+                        DataCell(Text(request.description)),
+                        DataCell(Text(request.maintenanceDTO.name)),
+                        DataCell(Text(request.userDTO.name)),
+                        DataCell(Text(request.createdAt)),
+                        DataCell(_actions(request)),
+                      ],
+                    ),
                   );
                 } else if (_requestService.notifier.state is FailedState) {
-                  return const Center(child: Text('Erro ao carregar requests'));
+                  return const Center(child: Text('Erro ao carregar pedidos'));
                 } else {
                   return const SizedBox.shrink();
                 }
@@ -192,6 +114,53 @@ class _RequestsPageState extends State<RequestsPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _actions(MaintenanceRequestModel request) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 4,
+      children: [
+        IconButton(
+          tooltip: 'Visualizar',
+          icon: const Icon(Icons.visibility),
+          onPressed: () => showDialog(
+            context: context,
+            builder: (_) => DialogRequest(
+              action: ActionEnum.view,
+              request: request,
+            ),
+          ),
+        ),
+        IconButton(
+          tooltip: 'Excluir',
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: () async {
+            final shouldDelete = await showDialog<bool>(
+              context: context,
+              builder: (_) => DialogAviso(
+                aviso: 'Tem certeza que deseja excluir o pedido Código ${request.requestNumber}?',
+                acoes: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text('Sim'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text('Não'),
+                  ),
+                ],
+              ),
+            );
+            if (shouldDelete == true) {
+              final deleted =
+                  await _acRequestService.deleteRequest(id: request.id);
+              if (deleted) await _requestService.getAllRequests();
+            }
+          },
+        ),
+      ],
     );
   }
 }
