@@ -62,10 +62,10 @@ class GymModel {
     return GymModel.empty().copyWith(
       json['id'] as String?,
       json['name'] as String?,
-      json['address'] as String?,
       json['document'] as String?,
-      json['email'] as String?,
       json['phoneNumber'] as String?,
+      json['email'] as String?,
+      json['address'] as String?,
     );
   }
 }
