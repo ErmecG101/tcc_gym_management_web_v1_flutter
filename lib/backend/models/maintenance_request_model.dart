@@ -30,6 +30,7 @@ class MaintenanceRequestModel {
   });
 
   Map<String, dynamic> toJson() => {
+    if (id.isNotEmpty) 'id': id,
     'requestNumber': requestNumber,
     'description': description,
     'observation': observation,

@@ -5,6 +5,16 @@ class RequestHttpService {
   final Defaulthttpclient _httpClient;
   RequestHttpService(this._httpClient);
 
+  Future<bool> createMaintenanceRequest(MaintenanceRequestModel request) async {
+    try {
+      await _httpClient.post('requests', null, request.toJson());
+      return true;
+    } catch (e) {
+      print('CAIU NO REQUEST HTTP SERVICE CREATE: $e');
+      rethrow;
+    }
+  }
+
   Future<MaintenanceRequestModel> getMaintenanceRequestById(String id) async {
     try {
       final response = await _httpClient.get('requests/$id', null, {});

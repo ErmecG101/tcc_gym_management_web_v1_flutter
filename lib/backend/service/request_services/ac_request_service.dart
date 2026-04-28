@@ -9,6 +9,19 @@ class AcRequestService {
   final RequestHttpService _httpService;
   AcRequestService(this._httpService);
 
+  Future<bool> createRequest({required MaintenanceRequestModel request}) async {
+    notifier.state = LoadingState();
+    try {
+      final result = await _httpService.createMaintenanceRequest(request);
+      notifier.state = SuccessState();
+      return result;
+    } catch (e) {
+      print('CAIU NO AC REQUEST SERVICE CREATE: $e');
+      notifier.state = FailedState(e.toString());
+      rethrow;
+    }
+  }
+
   Future<bool> updateRequest({
     required String id,
     required MaintenanceRequestModel request,

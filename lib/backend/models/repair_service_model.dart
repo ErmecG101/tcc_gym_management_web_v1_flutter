@@ -72,6 +72,7 @@ class RepairServiceModel {
   }
 
   Map<String, dynamic> toJson() => {
+        if (id.isNotEmpty) 'id': id,
         'description': description,
         'subTotal': subTotal,
         'finalPrice': finalPrice,
