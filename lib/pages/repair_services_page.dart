@@ -77,7 +77,7 @@ class _RepairServicesPageState extends State<RepairServicesPage> {
                       DataColumn(label: Text('Subtotal', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Preço Final', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Manutenção', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Request Nº', style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(label: Text('Código do Pedido', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Ações', style: TextStyle(fontWeight: FontWeight.bold))),
                     ],
                     rowBuilder: (rs) => DataRow(cells: [

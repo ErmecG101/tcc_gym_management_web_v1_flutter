@@ -77,7 +77,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                       DataColumn(label: Text('Nº Patrimônio', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Tipo', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Valor Atual', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Durabilidade', style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(label: Text('Depreciação', style: TextStyle(fontWeight: FontWeight.bold))),
                       DataColumn(label: Text('Ações', style: TextStyle(fontWeight: FontWeight.bold))),
                     ],
                     rowBuilder: (e) => DataRow(cells: [
@@ -85,7 +85,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                       DataCell(Text(e.propertyNumber)),
                       DataCell(Text(e.equipmentType.name)),
                       DataCell(Text('R\$ ${e.currentValue.toStringAsFixed(2)}')),
-                      DataCell(Text('${e.durability.toStringAsFixed(1)}%')),
+                      DataCell(Text('${e.depreciationPercentage.toStringAsFixed(2)}% a.a.')),
                       DataCell(_actions(e)),
                     ]),
                   );
