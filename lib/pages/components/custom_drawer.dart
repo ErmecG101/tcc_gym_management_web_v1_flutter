@@ -4,12 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcc_gym_management_web_v1_flutter/backend/constants/other_constants.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/equipment_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/equipment_types_page.dart';
-import 'package:tcc_gym_management_web_v1_flutter/pages/gyms_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/login_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/maintenances_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/pagina_usuarios.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/principal_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/repair_services_page.dart';
+import 'package:tcc_gym_management_web_v1_flutter/pages/reports_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/requests_page.dart';
 import 'package:tcc_gym_management_web_v1_flutter/pages/utils/page_utils.dart';
 
@@ -49,7 +49,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 PageUtils.navigateTo(context, const RequestsPage());
               },
-              label: const Text('Requests'),
+              label: const Text('Pedidos'),
               icon: const Icon(Icons.build_circle),
             ),
             ElevatedButton.icon(
@@ -86,14 +86,14 @@ class CustomDrawer extends StatelessWidget {
               label: const Text('Manutenções'),
               icon: const Icon(Icons.engineering),
             ),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-                PageUtils.navigateTo(context, const GymsPage());
-              },
-              label: const Text('Academias'),
-              icon: const Icon(Icons.business),
-            ),
+            // ElevatedButton.icon(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //     PageUtils.navigateTo(context, const GymsPage());
+            //   },
+            //   label: const Text('Academias'),
+            //   icon: const Icon(Icons.business),
+            // ),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pop(context);
@@ -101,6 +101,15 @@ class CustomDrawer extends StatelessWidget {
               },
               label: const Text('Usuários'),
               icon: const Icon(Icons.people),
+            ),
+            const Divider(),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+                PageUtils.navigateTo(context, const ReportsPage());
+              },
+              label: const Text('Relatórios'),
+              icon: const Icon(Icons.bar_chart),
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
